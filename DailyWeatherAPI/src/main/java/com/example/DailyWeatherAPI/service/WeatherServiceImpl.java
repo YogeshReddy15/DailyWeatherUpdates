@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class WeatherServiceImpl implements WeatherService {
 
-	@Value("${weather.api.url}")
+	//@Value("${weather.api.url}")
 	private String weatherApiUrl;
 
 	RestTemplate restTemplate = new RestTemplate();
@@ -35,7 +35,7 @@ public class WeatherServiceImpl implements WeatherService {
 	private static final Logger logger = LogManager.getLogger(DailyWeatherController.class);
 
 	@Override
-	public DailyForecast getDailyForecast() {
+	public DailyForecast getDailyForecast(double latitude, double longitude) {
 		// TODO Auto-generated method stub
 
 		DailyForecast response = new DailyForecast();
@@ -43,6 +43,8 @@ public class WeatherServiceImpl implements WeatherService {
 		DailyForecastDaily dailyForecastDaily = new DailyForecastDaily();
 
 		JsonNode weatherApiResponseJsonObject;
+		
+		weatherApiUrl = "https://api.weather.gov/gridpoints/MLB/" + latitude+ "," + longitude + "/forecast";
 
 		try {
 

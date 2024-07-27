@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.DailyWeatherAPI.model.DailyForecast;
@@ -24,9 +25,9 @@ public class DailyWeatherController {
 	private static final Logger logger = LogManager.getLogger(DailyWeatherController.class);
 	
 	@GetMapping("/dailyForecast")
-    public ResponseEntity<DailyForecast> getDailyForecast() {
+    public ResponseEntity<DailyForecast> getDailyForecast(@RequestParam double latitude, @RequestParam double longitude) {
 		logger.info("Started Daily Forcast Weather Controller call");
-        DailyForecast dailyForecast = weatherService.getDailyForecast();
+        DailyForecast dailyForecast = weatherService.getDailyForecast(latitude,longitude);
         return ResponseEntity.ok(dailyForecast);
     }
 

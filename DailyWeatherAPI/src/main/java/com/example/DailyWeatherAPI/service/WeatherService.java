@@ -4,6 +4,6 @@ import com.example.DailyWeatherAPI.model.DailyForecast;
 
 public interface WeatherService {
 
-	DailyForecast getDailyForecast();
+	DailyForecast getDailyForecast(double latitude, double longitude);
 
 }
