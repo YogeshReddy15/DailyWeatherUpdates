@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import com.example.DailyWeatherAPI.controller.DailyWeatherController;
 import com.example.DailyWeatherAPI.model.DailyForecast;
 import com.example.DailyWeatherAPI.model.DailyForecastDaily;
+import com.example.DailyWeatherAPI.model.ErrorMessage;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -106,6 +107,13 @@ public class WeatherServiceImpl implements WeatherService {
 			}
 
 		} catch (Exception exception) {
+
+			ErrorMessage errorMessage= new ErrorMessage();
+        	errorMessage.setErrorCode("400");
+        	errorMessage.setErrorDetails(exception.getMessage());
+        	errorMessage.setStatusCode("400_BAD REQUEST");
+        	
+        	response.setErrorMessage(errorMessage);
 
 			logger.info("Exception while Fetching from API -" + exception);
 

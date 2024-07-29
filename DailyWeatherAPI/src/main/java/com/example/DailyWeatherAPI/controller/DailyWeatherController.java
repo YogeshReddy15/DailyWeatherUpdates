@@ -3,6 +3,7 @@ package com.example.DailyWeatherAPI.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,10 +26,21 @@ public class DailyWeatherController {
 	private static final Logger logger = LogManager.getLogger(DailyWeatherController.class);
 	
 	@GetMapping("/dailyForecast")
-    public ResponseEntity<DailyForecast> getDailyForecast(@RequestParam double latitude, @RequestParam double longitude) {
+    public ResponseEntity<Object> getDailyForecast(@RequestParam double latitude, @RequestParam double longitude) {
+		
 		logger.info("Started Daily Forcast Weather Controller call");
+		
         DailyForecast dailyForecast = weatherService.getDailyForecast(latitude,longitude);
-        return ResponseEntity.ok(dailyForecast);
+
+        if(dailyForecast.getDaily() !=null) {
+        	
+            return new ResponseEntity<>(dailyForecast, HttpStatus.OK);
+         }
+         
+         else {
+         	
+            return new ResponseEntity<>(dailyForecast.getErrorMessage(), HttpStatus.BAD_REQUEST);
+         }
     }
 
 }
